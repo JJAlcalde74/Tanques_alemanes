@@ -1,0 +1,52 @@
+---
+title: "Problema de los Tanques Alemanes"
+author: "J.J.Alcalde"
+date: "20/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problema de los tanques alemanes
+
+https://es.wikipedia.org/wiki/Problema_de_los_tanques_alemanes#:~:text=El%20caso%20espec%C3%ADfico%20de%20tomar,del%20n%C3%BAmero%20de%20tanques%20alemanes.
+
+
+En la simulación que propongo en este caso tenemos una población con tamaño 5000. Cada individuo tiene un número de serie correlativo (equivalente al número de la caja de cambios en el ejemplo de los tanques alemanes).
+
+El tamaño muestral se define como 30 y tomaremos 10000 muestras.
+
+```{r}
+poblacion <- 5000
+
+
+numeros <- (1:poblacion)
+
+muestras <- 10000
+tamaño <- 30
+
+estimacion <- matrix(1:muestras)
+
+
+for (i in 1:muestras)
+{
+  m<-sample(numeros,tamaño,replace=FALSE)
+  maximo<-max(m)
+  maximo
+  estimacion[i]<-(((tamaño+1) / tamaño)*maximo) -1
+  
+}
+
+mean(estimacion)
+
+t.test(estimacion,mu=poblacion)
+
+hist(estimacion)
+
+```
+
+El valor a estimar es el máximo valor del número de serie que en este caso equivale al tamaño de la población.
+
+Se observa que la estimación es muy precisa.
